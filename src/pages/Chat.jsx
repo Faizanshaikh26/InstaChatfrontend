@@ -32,7 +32,9 @@ import { setIsFileMenu } from "../redux/reducers/misc";
 import { removeNewMessagesAlert } from "../redux/reducers/chat";
 import { TypingLoader } from "../components/layout/Loaders";
 import { useNavigate } from "react-router-dom";
-
+import whatsAppBg from '../assets/images/whats-appbg.jpg'
+import recivemessagenotisound from '../assets/sounds/whatsappreceive.mp3'
+import sendmessagenotisound from '../assets/sounds/whatsapprsend.mp3'
 const Chat = ({ chatId, user }) => {
   const socket = getSocket();
   const dispatch = useDispatch();
@@ -194,6 +196,12 @@ const Chat = ({ chatId, user }) => {
           overflowX: "hidden",
           overflowY: "auto",
         }}
+        style={{
+          backgroundImage: `url(${whatsAppBg})`,
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+        }}
       >
         {allMessages.map((i) => (
           <MessageComponent key={i._id} message={i} user={user} />
@@ -238,8 +246,8 @@ const Chat = ({ chatId, user }) => {
             type="submit"
             sx={{
               rotate: "-30deg",
-              bgcolor: orange,
-              color: "white",
+              bgcolor: "#FFCB74",
+              color: "black",
               marginLeft: "1rem",
               padding: "0.5rem",
               "&:hover": {

@@ -1,0 +1,93 @@
+import { AttachFile as AttachFileIcon, Send as SendIcon } from "@mui/icons-material";
+import { IconButton, Stack } from "@mui/material";
+import React, { useRef, useState } from "react";
+import { useSocket } from "../Socket";
+import Applayout from "../components/layout/Applayout";
+import MessageComponent from "../components/shared/MessageComponent";
+import { InputBox } from "../components/styles/StyledComponents";
+import { NEW_MESSAGE } from "../constants/events";
+import { sampleMessage } from "../constants/sampleData";
+import Filemenu from "../dialogue/Filemenu";
+import { useGetChatDetailsQuery } from "../redux/api/api";
+
+function Chat({chatid}) {
+  const containerRef = useRef(null);
+  const[message,setMessage]=useState("")
+  const socket=useSocket()
+  const chatDetails=useGetChatDetailsQuery({chatid,skip:!chatid})
+  console.log(chatDetails.data)
+  const user={
+    _id:'2w2wq2',
+    name:"Faizan"
+  }
+const submitHandler=(e)=>{
+  e.preventDefault();
+
+  if(!message.trim()) return 
+socket.emit(NEW_MESSAGE,{chatid,members,message})
+setMessage("")
+  
+
+}
+  return (
+    <>
+      <Stack
+        ref={containerRef}
+        sx={{
+          boxSizing: "border-box",
+          padding: "1rem",
+          spacing: "1rem",
+          bgcolor: "rgba(247,247,247,1)",
+          height: "90%",
+          overflowX: "hidden",
+          overflowY: "auto",
+        }}
+      >
+       {
+        sampleMessage.map((mess)=>(
+          <MessageComponent message={mess} user={user}/>
+        ))
+       }
+      </Stack>
+
+      <form
+        style={{
+          height: "10%",
+          display: "flex",
+          alignItems: "center",
+        }}
+        onSubmit={submitHandler}
+      >
+        <Stack direction="row" height="100%" width="100%" padding={'0.6rem'} position={'relative'}alignItems="center">
+          <IconButton sx={{
+            position:'absolute',
+            left:"1.5rem",
+            rotate:'-30deg'
+          }}>
+            <AttachFileIcon />
+          </IconButton>
+
+          <InputBox  placeholder="Type mesage here.." value={message} onChange={(e)=>setMessage(e.target.value)}/>
+
+          <IconButton type="submit" sx={{
+            rotate:'-30deg',
+            backgroundColor:'#FFCB74',
+            color:'black',
+            marginLeft:'1rem',
+            padding:'0.5rem',
+            ":hover":{
+              backgroundColor:'error.dark'
+            }
+          }}>
+            <SendIcon />
+          </IconButton>
+        </Stack>
+      </form>
+
+<Filemenu/>
+
+    </>
+  );
+}
+
+export default Applayout()(Chat);
