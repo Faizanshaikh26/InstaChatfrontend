@@ -42,6 +42,8 @@ const Chat = ({ chatId, user }) => {
 
   const containerRef = useRef(null);
   const bottomRef = useRef(null);
+  const recivemessagenoti =new Audio(recivemessagenotisound)
+  const sendmessagenoti =new Audio(sendmessagenotisound)
 
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -99,6 +101,7 @@ const Chat = ({ chatId, user }) => {
 
     // Emitting the message to the server
     socket.emit(NEW_MESSAGE, { chatId, members, message });
+    sendmessagenoti.play()
     setMessage("");
   };
 
@@ -127,6 +130,10 @@ const Chat = ({ chatId, user }) => {
   const newMessagesListener = useCallback(
     (data) => {
       if (data.chatId !== chatId) return;
+      if (data.message.sender._id !== user._id) {
+        recivemessagenoti.play(); 
+      }
+      
 
       setMessages((prev) => [...prev, data.message]);
     },
