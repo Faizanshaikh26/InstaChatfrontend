@@ -29,10 +29,13 @@ const ChatItem = ({
         transition={{ delay: 0.1 * index }}
         style={{
           display: "flex",
+          background:"#fafafa",
+          color:"#111b21",
+          borderColor:"white",
           gap: "1rem",
           alignItems: "center",
-          backgroundColor: sameSender ? "black" : "unset",
-          color: sameSender ? "white" : "unset",
+          backgroundColor: sameSender ? "#f0f2f5" : "unset",
+          color: sameSender ? "#0E1514" : "unset",
           position: "relative",
           padding: "1rem",
         }}
